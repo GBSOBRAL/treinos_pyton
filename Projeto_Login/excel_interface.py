@@ -1,5 +1,15 @@
 import openpyxl
 import customtkinter as ctk
+from cryptography.fernet import Fernet
+
+secret_key = b'a0LGI7KuOdJ7EvmFYubDT2_Mc6QYW0vK8JezMTL4l6U='
+fernet = Fernet(secret_key)
+
+def encrypt_pw(pw):
+     return fernet.encrypt(pw.encode()).decode()
+
+def decrypt_pw(pw_encrypted):
+     return fernet.decrypt(pw_encrypted.encode()).decode()
 
 #Planilha
 book = openpyxl.load_workbook("Dados.xlsx")
@@ -17,7 +27,7 @@ def check_login():
     pw = field_pw.get()
     for row in page.iter_rows(min_row=2):
         user_check = row[0].value
-        pw_check = row[1].value
+        pw_check = decrypt_pw(row[1].value)
         if user_check == user and pw_check == pw:
              result_login.configure(text = "Login efetuado com sucesso")
              break
@@ -26,7 +36,7 @@ def check_login():
 
 def send_signin():
         user_signin = field_user_signin.get()
-        pw_signin = field_pw_signin.get()
+        pw_signin = encrypt_pw(field_pw_signin.get())
         page.append([user_signin, pw_signin])
         
         book.save("Dados.xlsx")

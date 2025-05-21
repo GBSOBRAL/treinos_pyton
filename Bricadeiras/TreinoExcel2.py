@@ -1,12 +1,4 @@
-import sys
-import math
-import random
-import threading
-import time
-from traceback import print_tb
-
 import openpyxl
-from functools import reduce
 
 book = openpyxl.load_workbook("Frutaria.xlsx")
 

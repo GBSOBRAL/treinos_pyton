@@ -71,6 +71,7 @@ print("123".isdigit())
 
 #Listas
 print(div)
+print("LISTA")
 
 l1 = [1, 3.14, "Derek", True]
 
